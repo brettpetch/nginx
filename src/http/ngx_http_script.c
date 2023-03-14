@@ -447,6 +447,9 @@ ngx_http_script_variables_count(ngx_str_t *value)
     ngx_uint_t  i, n;
 
     for (n = 0, i = 0; i < value->len; i++) {
+        if (i > 0 && value->data[i - 1] == '\\') {
+            continue;
+        }
         if (value->data[i] == '$') {
             n++;
         }
@@ -454,7 +457,6 @@ ngx_http_script_variables_count(ngx_str_t *value)
 
     return n;
 }
-
 
 ngx_int_t
 ngx_http_script_compile(ngx_http_script_compile_t *sc)
